@@ -1,16 +1,24 @@
 import { Chess, Move, Square } from "chess.js";
-import React, { useMemo, useState, useEffect } from "react";
+import { Audio } from 'expo-av';
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
+  SafeAreaView,
+  StatusBar,
   StyleSheet,
+  Switch,
   Text,
   TouchableOpacity,
   View,
-  Switch,
-  SafeAreaView,
-  StatusBar,
 } from "react-native";
+import {
+  playChessMoveSound,
+  playGameEndSound,
+  playGameStartSound,
+  playIllegalMoveSound,
+  unloadAllSounds
+} from "../../utils/SoundManager";
 
 const defaultFEN =
   "5rk1/3q1r1p/1p1bQ1p1/8/1P4R1/7P/3N2P1/5R1K w - - 5 34";
@@ -72,7 +80,35 @@ export default function ChessPuzzle() {
 
   useEffect(() => {
     updateGameStatus(chess);
+    
+    // Play game end sound if the game is over
+    if (chess.isGameOver()) {
+      playGameEndSound();
+    }
   }, [chess]);
+
+  // Initialize audio
+  useEffect(() => {
+    // Request audio permission
+    const setupAudio = async () => {
+      try {
+        await Audio.setAudioModeAsync({
+          playsInSilentModeIOS: true,
+          staysActiveInBackground: false,
+          shouldDuckAndroid: true,
+        });
+      } catch (error) {
+        console.error("Error setting up audio:", error);
+      }
+    };
+
+    setupAudio();
+
+    // Cleanup on unmount
+    return () => {
+      unloadAllSounds();
+    };
+  }, []);
 
   function handleSquarePress(row: number, col: number) {
     if (isRobotThinking) return;
@@ -93,6 +129,9 @@ export default function ChessPuzzle() {
         });
 
         if (move) {
+          // Play the appropriate sound based on the move type
+          playChessMoveSound(move);
+          
           const newChess = new Chess(chess.fen());
           setChess(newChess);
 
@@ -101,6 +140,9 @@ export default function ChessPuzzle() {
           }
         }
       } catch (error) {
+        // Play illegal move sound
+        playIllegalMoveSound();
+        
         Alert.alert(
           "Invalid Move",
           `The move from ${fromSquare} to ${square} is not allowed.`,
@@ -146,7 +188,12 @@ export default function ChessPuzzle() {
             selectedMove = moves[Math.floor(Math.random() * moves.length)];
           }
 
-          chessInstance.move(selectedMove);
+          // Make the move
+          const move = chessInstance.move(selectedMove);
+          
+          // Play sound for robot's move (passing true for isOpponent)
+          playChessMoveSound(move, true);
+          
           const newChessInstance = new Chess(chessInstance.fen());
           setChess(newChessInstance);
         }
@@ -156,6 +203,9 @@ export default function ChessPuzzle() {
   }
 
   function startNewGame() {
+    // Play game start sound
+    playGameStartSound();
+    
     const newChess = new Chess();
     setFEN(newChess.fen());
     setChess(newChess);
