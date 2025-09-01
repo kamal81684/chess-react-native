@@ -1,50 +1,107 @@
-# Welcome to your Expo app 👋
+# Chess App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A beautiful, working chess app built with React Native and Expo.
 
-## Get started
+## Features
+- Play chess with a modern, responsive UI
+- All standard chess rules implemented
+- Sound effects for moves, captures, checks, game start/end, and more
+- Themed design with light/dark mode support
+- Parallax scroll views and animated UI elements
+- Haptic feedback on tab navigation
+- Collapsible sections and external links
 
-1. Install dependencies
+## Folder Structure
+```
+app.json                # Expo app configuration
+eslint.config.js        # ESLint configuration
+expo-env.d.ts           # Expo environment types
+package.json            # Project dependencies and scripts
+README.md               # Project documentation
+tsconfig.json           # TypeScript configuration
 
-   ```bash
-   npm install
-   ```
+app/                    # Main app screens and layouts
+   _layout.tsx           # Root layout
+   +not-found.tsx        # 404 screen
+   (tabs)/               # Tab navigation screens
+      _layout.tsx         # Tab layout
+      index.tsx           # Main tab screen
 
-2. Start the app
+assets/                 # Static assets
+   fonts/                # Custom fonts
+      SpaceMono-Regular.ttf
+   images/               # App icons and images
+      adaptive-icon.png
+      favicon.png
+      icon.png
+      partial-react-logo.png
+      react-logo.png
+      react-logo@2x.png
+      react-logo@3x.png
+      splash-icon.png
+   sounds/               # Sound effects
+      capture.mp3
+      castle.mp3
+      createSounds.ts
+      game-end.mp3
+      game-start.mp3
+      illegal.mp3
+      move-check.mp3
+      move-opponent.mp3
+      move-self.mp3
+      notify.mp3
+      premove.mp3
+      promote.mp3
+      tenseconds.mp3
 
-   ```bash
-   npx expo start
-   ```
+components/             # Reusable UI components
+   Collapsible.tsx
+   ExternalLink.tsx
+   HapticTab.tsx
+   HelloWave.tsx
+   ParallaxScrollView.tsx
+   ThemedText.tsx
+   ThemedView.tsx
+   ui/                   # Platform-specific UI
+      IconSymbol.ios.tsx
+      IconSymbol.tsx
+      TabBarBackground.ios.tsx
+      TabBarBackground.tsx
 
-In the output, you'll find options to open the app in a
+constants/              # App-wide constants
+   Colors.ts
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+hooks/                  # Custom React hooks
+   useColorScheme.ts
+   useColorScheme.web.ts
+   useThemeColor.ts
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+scripts/                # Utility scripts
+   reset-project.js
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+utils/                  # Utility functions
+   SoundManager.ts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Getting Started
+1. **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2. **Start the app:**
+    ```bash
+    npx expo start
+    ```
+3. **Open in Expo Go or emulator.**
 
-## Learn more
+## Notes
+- Only frontend is implemented (no backend or multiplayer yet)
+- All chess logic and sounds work locally
+- Designed for quick setup and easy extension
 
-To learn more about developing your project with Expo, look at the following resources:
+## Credits
+- Built by [kamal81684](https://github.com/kamal81684)
+- Powered by React Native, Expo, and TypeScript
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+Feel free to contribute or fork!
